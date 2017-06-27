@@ -1,6 +1,15 @@
 FROM alpine:3.3
 
-ENV CONSUL_TEMPLATE_VERSION=0.18.3
+ENV KUBE_LATEST_VERSION="v1.6.4"
+
+RUN apk add --update ca-certificates \
+ && apk add --update -t deps curl \
+ && curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBE_LATEST_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
+ && chmod +x /usr/local/bin/kubectl \
+ && apk del --purge deps \
+ && rm /var/cache/apk/*
+
+ENV CONSUL_TEMPLATE_VERSION=0.18.5
 
 RUN apk add --update curl && \
     curl -LO http://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip && \
