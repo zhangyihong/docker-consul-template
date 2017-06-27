@@ -1,5 +1,8 @@
 FROM alpine:3.3
 
+COPY ./remove-po.sh /remove-po.sh
+RUN chmod +x /remove-po.sh
+
 ENV KUBE_LATEST_VERSION="v1.6.4"
 
 RUN apk add --update ca-certificates \
