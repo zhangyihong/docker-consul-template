@@ -16,7 +16,9 @@ kubectl config set-context local-deploy \
 
 kubectl config use-context local-deploy
 
-echo "KILL ${KUBE_KILL_NAME} container"
-KILL_PID=`ps ax |grep java |awk -F" " '{print $1}'`
+KILL_PID=`kubectl exec $HOSTNAME -c $KUBE_KILL_NAME -- ps ax |grep java |awk -F" " '{print $1}'`
+
+echo "KILL ${KUBE_KILL_NAME} container KILL_PID: ${KILL_PID}"
+
 kubectl exec $HOSTNAME -c $KUBE_KILL_NAME -- kill -9 $KILL_PID
 
